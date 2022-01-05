@@ -248,8 +248,7 @@ Pat now has 6 Gold Coins.
 			game.Add("Pat");
 			game.Add("Sue");
 
-
-			Assert.Throws<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
 			{
 				for (var i = 0; i <= maxNumberQuestions; i++)
 				{
@@ -258,5 +257,19 @@ Pat now has 6 Gold Coins.
 				}
 			});
 		}
+
+        [Fact]
+        public void throw_exception_when_adding_more_than_5_players()
+        {
+            var game = new Game();
+
+            game.Add("Chet");
+            game.Add("Pat");
+            game.Add("Sue");
+            game.Add("Sue");
+            game.Add("Sue");
+
+            Assert.Throws<IndexOutOfRangeException>(() => game.Add("Sue"));
+        }
 	}
 }
