@@ -208,5 +208,16 @@ Pat now has 6 Gold Coins.
 
             Assert.Equal(expectedResult, fakeoutput.ToString());
         }
+
+        [Fact]
+        public void output_for_0_players_and_try_play_throws_ArgumentOutOfRangeException()
+        {
+            var fakeoutput = new StringBuilder();
+            Console.SetOut(new StringWriter(fakeoutput));
+
+            var game = new Game();
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => game.Roll(5));
+        }
     }
 }
