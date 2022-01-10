@@ -30,7 +30,7 @@ namespace Tests
 			);
 		}
 
-        [Fact]
+        [Fact(Skip = "true")]
         public void Generate_golden_master_files()
         {
             const string folder = @"../../../OutputGM";
