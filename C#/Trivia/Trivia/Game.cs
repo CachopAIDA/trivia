@@ -1,48 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Trivia
 {
     public class Game
     {
-        private readonly bool[] inPenaltyBox = new bool[6];
+        //private readonly bool[] inPenaltyBox = new bool[6];
 
-        private readonly int[] places = new int[6];
-        private readonly List<string> players = new List<string>();
+        //private readonly int[] places = new int[6];
+        private readonly List<Player> players = new List<Player>();
 
-        private readonly int[] points = new int[6];
+        //private readonly int[] points = new int[6];
 
         private readonly Question popQuestions = new Question("Pop");
         private readonly Question rockQuestions = new Question("Rock");
         private readonly Question scienceQuestions = new Question("Science");
         private readonly Question sportsQuestions = new Question("Sports");
 
-        private int currentPlayer;
+        private int currentPlayerIndex;
         private bool isGettingOutOfPenaltyBox;
 
         public bool Add(string playerName)
         {
-            players.Add(playerName);
-            places[HowManyPlayers()] = 0;
-            points[HowManyPlayers()] = 0;
-            inPenaltyBox[HowManyPlayers()] = false;
+            Player player = new Player(playerName);
+            players.Add(player);
 
             Console.WriteLine(playerName + " was added");
             Console.WriteLine("They are player number " + players.Count);
             return true;
         }
 
-        private int HowManyPlayers()
-        {
-            return players.Count;
-        }
-
         public void Roll(int roll)
         {
-            Console.WriteLine(players[currentPlayer] + " is the current player");
+            Console.WriteLine(players[currentPlayerIndex].name + " is the current player");
             Console.WriteLine("They have rolled a " + roll);
 
-            if (inPenaltyBox[currentPlayer])
+            if (players[currentPlayerIndex].inPenaltyBox)
             {
                 if (roll % 2 != 0)
                 {
@@ -50,7 +44,7 @@ namespace Trivia
                 }
                 else
                 {
-                    Console.WriteLine(players[currentPlayer] + " is not getting out of the penalty box");
+                    Console.WriteLine(players[currentPlayerIndex].name + " is not getting out of the penalty box");
                     isGettingOutOfPenaltyBox = false;
                 }
             }
@@ -64,18 +58,18 @@ namespace Trivia
         {
             isGettingOutOfPenaltyBox = true;
 
-            Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
+            Console.WriteLine(players[currentPlayerIndex].name + " is getting out of the penalty box");
             HandleNotInPenaltyBox(roll);
         }
 
         private void HandleNotInPenaltyBox(int roll)
         {
-            places[currentPlayer] += roll;
-            if (places[currentPlayer] > 11) places[currentPlayer] -= 12;
+            players[currentPlayerIndex].places += roll;
+            if (players[currentPlayerIndex].places > 11) players[currentPlayerIndex].places -= 12;
 
-            Console.WriteLine(players[currentPlayer]
+            Console.WriteLine(players[currentPlayerIndex].name
                               + "'s new location is "
-                              + places[currentPlayer]);
+                              + players[currentPlayerIndex].places);
             Console.WriteLine("The category is " + CurrentCategory());
             AskQuestion();
         }
@@ -97,7 +91,7 @@ namespace Trivia
 
         private string CurrentCategory()
         {
-            switch (places[currentPlayer])
+            switch (players[currentPlayerIndex].places)
             {
                 case 0:
                 case 4:
@@ -118,7 +112,7 @@ namespace Trivia
 
         public bool WasCorrectlyAnswered()
         {
-            if (inPenaltyBox[currentPlayer])
+            if (players[currentPlayerIndex].inPenaltyBox)
             {
                 if (isGettingOutOfPenaltyBox) return HandleCurrentAnswer();
 
@@ -132,10 +126,10 @@ namespace Trivia
         private bool HandleCurrentAnswer()
         {
             Console.WriteLine("Answer was correct!!!!");
-            points[currentPlayer]++;
-            Console.WriteLine(players[currentPlayer]
+            players[currentPlayerIndex].AddPoints();
+            Console.WriteLine(players[currentPlayerIndex].name
                               + " now has "
-                              + points[currentPlayer]
+                              + players[currentPlayerIndex].points
                               + " Gold Coins.");
 
             var winner = DidPlayerWin();
@@ -145,15 +139,15 @@ namespace Trivia
 
         private void SetCurrentPlayer()
         {
-            currentPlayer++;
-            if (currentPlayer == players.Count) currentPlayer = 0;
+            currentPlayerIndex++;
+            if (currentPlayerIndex == players.Count) currentPlayerIndex = 0;
         }
 
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(players[currentPlayer] + " was sent to the penalty box");
-            inPenaltyBox[currentPlayer] = true;
+            Console.WriteLine(players[currentPlayerIndex].name + " was sent to the penalty box");
+            players[currentPlayerIndex].inPenaltyBox = true;
 
             SetCurrentPlayer();
             return true;
@@ -162,7 +156,7 @@ namespace Trivia
 
         private bool DidPlayerWin()
         {
-            return points[currentPlayer] != 6;
+            return players[currentPlayerIndex].points != 6;
         }
     }
 }
