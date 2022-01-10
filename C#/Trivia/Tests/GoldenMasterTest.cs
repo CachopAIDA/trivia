@@ -19,7 +19,7 @@ namespace Tests
 				using var fileStream = new FileStream(Path.Combine(folder, file), FileMode.Create);
 				using var outputStream = new StreamWriter(fileStream);
 				Console.SetOut(outputStream);
-				GameRunner.Main(null);
+				GameRunner.PlayGame(new Random(1));
 			}
 
 			Assert.Equal(
