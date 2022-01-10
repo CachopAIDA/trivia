@@ -11,18 +11,14 @@ namespace Trivia
         private readonly List<string> players = new List<string>();
 
         private readonly int[] points = new int[6];
-        
+
         private readonly Question popQuestions = new Question("Pop");
+        private readonly Question rockQuestions = new Question("Rock");
         private readonly Question scienceQuestions = new Question("Science");
         private readonly Question sportsQuestions = new Question("Sports");
-        private readonly Question rockQuestions = new Question("Rock");
 
         private int currentPlayer;
         private bool isGettingOutOfPenaltyBox;
-
-        public Game()
-        {
-        }
 
         public bool Add(string playerName)
         {
@@ -49,7 +45,9 @@ namespace Trivia
             if (inPenaltyBox[currentPlayer])
             {
                 if (roll % 2 != 0)
+                {
                     HandleInPenaltyBoxEvenRoll(roll);
+                }
                 else
                 {
                     Console.WriteLine(players[currentPlayer] + " is not getting out of the penalty box");
@@ -57,7 +55,9 @@ namespace Trivia
                 }
             }
             else
+            {
                 HandleNotInPenaltyBox(roll);
+            }
         }
 
         private void HandleInPenaltyBoxEvenRoll(int roll)
@@ -121,7 +121,7 @@ namespace Trivia
             if (inPenaltyBox[currentPlayer])
             {
                 if (isGettingOutOfPenaltyBox) return HandleCurrentAnswer();
-                
+
                 SetCurrentPlayer();
                 return true;
             }

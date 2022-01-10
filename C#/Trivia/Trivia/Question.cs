@@ -6,23 +6,20 @@ namespace Trivia
 {
     public class Question
     {
-        private LinkedList<string> items;
         private string category;
+        private readonly LinkedList<string> items;
 
         public Question(string category)
         {
             this.category = category;
-            this.items = new LinkedList<string>();
-            for (var i = 0; i < 50; i++)
-            {
-                this.items.AddLast($"{category} Question {i}");
-            }
+            items = new LinkedList<string>();
+            for (var i = 0; i < 50; i++) items.AddLast($"{category} Question {i}");
         }
 
         public void NextQuestion()
         {
-            Console.WriteLine(this.items.First());
-            this.items.RemoveFirst();
+            Console.WriteLine(items.First());
+            items.RemoveFirst();
         }
     }
 }

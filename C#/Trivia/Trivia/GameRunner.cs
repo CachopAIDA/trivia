@@ -24,13 +24,9 @@ namespace Trivia
                 game.Roll(rand.Next(5) + 1);
 
                 if (rand.Next(9) == 7)
-                {
                     notAWinner = game.WrongAnswer();
-                }
                 else
-                {
                     notAWinner = game.WasCorrectlyAnswered();
-                }
             } while (notAWinner);
         }
     }
