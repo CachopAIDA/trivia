@@ -54,11 +54,11 @@ namespace Tests
             {
                 var file = $"trivialOutput.{i}.txt";
 
-                var contentEspec = new StringBuilder();
-                Console.SetOut(new StringWriter(contentEspec));
+                var expectedContent = new StringBuilder();
+                Console.SetOut(new StringWriter(expectedContent));
 
                 GameRunner.PlayGame(new Random(i));
-                Assert.Equal(contentEspec.ToString(), File.ReadAllText(Path.Combine(folder, file)));
+                Assert.Equal(expectedContent.ToString(), File.ReadAllText(Path.Combine(folder, file)));
             }
         }
 	}
