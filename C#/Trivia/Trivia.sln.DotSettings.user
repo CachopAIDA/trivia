@@ -1,2 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/CodeInspection/Highlighting/SweaWarningsMode/@EntryValue">ShowAndRun</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/SweaWarningsMode/@EntryValue">ShowAndRun</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4f0c1824_002Dc59c_002D4ee7_002Db696_002D691459cf4840/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Verify_output_is_random" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::7304DA09-262C-40EE-BC81-2B75746BD20E::.NETCoreApp,Version=v3.1::Tests.GoldenMasterTest.Verify_output_is_random&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
