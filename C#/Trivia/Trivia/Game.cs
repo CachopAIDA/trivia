@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Trivia
 {
@@ -11,24 +10,18 @@ namespace Trivia
         private readonly int[] places = new int[6];
         private readonly List<string> players = new List<string>();
 
-        private readonly LinkedList<string> popQuestions = new LinkedList<string>();
         private readonly int[] points = new int[6];
-        private readonly LinkedList<string> rockQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> scienceQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> sportsQuestions = new LinkedList<string>();
+        
+        private readonly Question popQuestions = new Question("Pop");
+        private readonly Question scienceQuestions = new Question("Science");
+        private readonly Question sportsQuestions = new Question("Sports");
+        private readonly Question rockQuestions = new Question("Rock");
 
         private int currentPlayer;
         private bool isGettingOutOfPenaltyBox;
 
         public Game()
         {
-            for (var i = 0; i < 50; i++)
-            {
-                popQuestions.AddLast("Pop Question " + i);
-                scienceQuestions.AddLast("Science Question " + i);
-                sportsQuestions.AddLast("Sports Question " + i);
-                rockQuestions.AddLast("Rock Question " + i);
-            }
         }
 
         public bool Add(string playerName)
@@ -56,19 +49,7 @@ namespace Trivia
             if (inPenaltyBox[currentPlayer])
             {
                 if (roll % 2 != 0)
-                {
-                    isGettingOutOfPenaltyBox = true;
-
-                    Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
-                    places[currentPlayer] = places[currentPlayer] + roll;
-                    if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-                    Console.WriteLine(players[currentPlayer]
-                                      + "'s new location is "
-                                      + places[currentPlayer]);
-                    Console.WriteLine("The category is " + CurrentCategory());
-                    AskQuestion();
-                }
+                    HandleInPenaltyBoxEvenRoll(roll);
                 else
                 {
                     Console.WriteLine(players[currentPlayer] + " is not getting out of the penalty box");
@@ -76,43 +57,42 @@ namespace Trivia
                 }
             }
             else
-            {
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                HandleNotInPenaltyBox(roll);
+        }
 
-                Console.WriteLine(players[currentPlayer]
-                                  + "'s new location is "
-                                  + places[currentPlayer]);
-                Console.WriteLine("The category is " + CurrentCategory());
-                AskQuestion();
-            }
+        private void HandleInPenaltyBoxEvenRoll(int roll)
+        {
+            isGettingOutOfPenaltyBox = true;
+
+            Console.WriteLine(players[currentPlayer] + " is getting out of the penalty box");
+            HandleNotInPenaltyBox(roll);
+        }
+
+        private void HandleNotInPenaltyBox(int roll)
+        {
+            places[currentPlayer] += roll;
+            if (places[currentPlayer] > 11) places[currentPlayer] -= 12;
+
+            Console.WriteLine(players[currentPlayer]
+                              + "'s new location is "
+                              + places[currentPlayer]);
+            Console.WriteLine("The category is " + CurrentCategory());
+            AskQuestion();
         }
 
         private void AskQuestion()
         {
             if (CurrentCategory() == "Pop")
-            {
-                Console.WriteLine(popQuestions.First());
-                popQuestions.RemoveFirst();
-            }
+                popQuestions.NextQuestion();
 
             if (CurrentCategory() == "Science")
-            {
-                Console.WriteLine(scienceQuestions.First());
-                scienceQuestions.RemoveFirst();
-            }
+                scienceQuestions.NextQuestion();
 
             if (CurrentCategory() == "Sports")
-            {
-                Console.WriteLine(sportsQuestions.First());
-                sportsQuestions.RemoveFirst();
-            }
+                sportsQuestions.NextQuestion();
 
             if (CurrentCategory() == "Rock")
-            {
-                Console.WriteLine(rockQuestions.First());
-                rockQuestions.RemoveFirst();
-            }
+                rockQuestions.NextQuestion();
         }
 
         private string CurrentCategory()
