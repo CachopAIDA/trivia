@@ -6,7 +6,7 @@ namespace Trivia
 {
     public class Question
     {
-        private string category;
+        private readonly string category;
         private readonly LinkedList<string> items;
 
         public Question(string category)

@@ -15,9 +15,9 @@ namespace Trivia
         {
             var game = new Game();
 
-            game.Add("Chet");
-            game.Add("Pat");
-            game.Add("Sue");
+            game.AddPlayer("Chet");
+            game.AddPlayer("Pat");
+            game.AddPlayer("Sue");
 
             do
             {
