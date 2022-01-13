@@ -2,27 +2,29 @@
 {
     public class Player
     {
-        public string name;
+        public readonly string Name;
         public bool InPenaltyBox { get; set; }
-        public int points { get; set; }
-        public int places { get; set; }
+        public int Points { get; private set; }
+        public int Places { get; set; }
 
         public Player(string name)
         {
-            this.name = name;
-            this.places = 0;
-            this.points = 0;
+            this.Name = name;
+            this.Places = 0;
+            this.Points = 0;
             this.InPenaltyBox = false;
         }
 
         public void AddPoints()
         {
-            this.points++;
+            this.Points++;
         }
+
+        public bool HasWon => Points == 6;
 
         public string CurrentCategory()
         {
-            switch (this.places)
+            switch (this.Places)
             {
                 case 0:
                 case 4:
@@ -39,6 +41,11 @@
                 default:
                     return "Rock";
             }
+        }
+
+        public void SendToPenaltyBox()
+        {
+            this.InPenaltyBox = true;
         }
     }
 }
